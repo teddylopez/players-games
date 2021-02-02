@@ -1,6 +1,6 @@
 import React from "react";
 
-function Nav({player}) {
+function Nav({ player }) {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -102,19 +102,18 @@ function Nav({player}) {
                 placeholder="Search"
                 aria-label="Search"
               ></input>
-              <button className="btn btn-sm btn-outline-light">
-                Search
-              </button>
+              <button className="btn btn-sm btn-outline-light">Search</button>
             </form>
           </div>
         </div>
       </nav>
       <div className="subheader">
         <div className="container">
-          { player.first_name ? (
-              <h5>{ `${player.first_name} ${player.last_name}`}</h5>
-            ) : ('')
-          }
+          {player.first_name ? (
+            <h5>{`${player.first_name} ${player.last_name}`}</h5>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

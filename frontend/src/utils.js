@@ -28,12 +28,12 @@ export const springTrainingGameLabel = (gameType) => {
 };
 
 export const positionText = (player) => {
-  return player[0]['mlb_info']['position'];
-}
+  return player[0]["mlb_info"]["position"];
+};
 
 export const gameEnumLabels = (enumValue) => {
   const enumTypes = {
-    "All": "All",
+    All: "All",
     "0": "Intrasquad",
     "1": "Instructional",
     "2": "Exhibition",

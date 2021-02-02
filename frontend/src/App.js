@@ -9,7 +9,7 @@ import Table from "./common/table";
 import { gameEnumLabels } from "./utils";
 
 function App() {
-  const [player, setPlayer] = useState([])
+  const [player, setPlayer] = useState([]);
   const [statTableTheme, setStatTableTheme] = useState("proHitter");
   const [currentPage, setCurrentPage] = useState(1);
   const [initialPage, setInitialPage] = useState(true);
@@ -61,7 +61,6 @@ function App() {
         `/api/players/64002/games?page=${currentPage}&season=${season}&game_type=${gameType}`
       )
       .then(({ data }) => {
-
         const { player, seasons, queriedGames, gameTypes } = data;
         if (queriedGames.length === 0) {
           setReachedEnd(true);
@@ -69,13 +68,12 @@ function App() {
           return;
         }
 
-        setPlayer(player)
+        setPlayer(player);
         setSeasons(["Career", ...seasons]);
         setGames([...games, ...queriedGames]);
         setGameTypes(["All", ...gameTypes]);
         setLoading(false);
         setInitialPage(false);
-
       })
       .catch((error) => {
         console.log(error);
@@ -84,7 +82,7 @@ function App() {
 
   return (
     <>
-      <Nav player={player}/>
+      <Nav player={player} />
       <div className="container container-fluid body-wrapper">
         <div className="row row-offcanvas row-offcanvas-right">
           <Sidebar />
