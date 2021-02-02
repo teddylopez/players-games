@@ -1,0 +1,19 @@
+#sidebar {
+  .sidebar-player-photo {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  img {
+    border-radius: 4px;
+    height: 130px;
+    box-shadow: 0px 0px 3px #333;
+  }
+
+  li {
+    text-align: right;
+    list-style-type: none;
+    cursor: pointer;
+  }
+}

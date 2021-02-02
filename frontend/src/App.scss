@@ -1,0 +1,55 @@
+@import "styles/nav.scss";
+@import "styles/tables.scss";
+@import "styles/sidebar.scss";
+@import "styles/generic.scss";
+@import "styles/base.scss";
+
+div.panel-body {
+  display: flex;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+div.page-segment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  height: 50px;
+  border-radius: 5px;
+}
+
+div.small-page-segment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  height: 20px;
+  border-radius: 5px;
+}
+
+div.flex-container {
+  display: flex;
+}
+
+@media only screen and (max-width: 800px) {
+  div.hidden {
+    display: inline;
+  }
+
+  div.small-page-segment {
+    height: 40px;
+  }
+
+  div.loading {
+    font-size: 14px;
+  }
+
+  div.hidden-xs {
+    display: none;
+  }
+
+  div.flex-container {
+    justify-content: space-between;
+  }
+}
