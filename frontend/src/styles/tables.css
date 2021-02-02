@@ -1,0 +1,30 @@
+tr.sticky th {
+  top: 0;
+  position: sticky;
+  background-color: white;
+}
+
+div.table-container {
+  max-height: 75vh !important;
+  overflow: scroll !important;
+}
+
+table.player-stat-table {
+  cursor: pointer;
+  line-height: 15px;
+  background-color: white;
+}
+
+table.player-stat-table th,
+td {
+  font-size: 14px;
+}
+
+table.player-stat-table td.game-label {
+  font-weight: bold;
+  min-width: 125px;
+}
+
+table.player-stat-table tr:hover {
+  background-color: #dddddd;
+}

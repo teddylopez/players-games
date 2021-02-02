@@ -1,4 +1,4 @@
-import "./App.scss";
+import "./App.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Dropdown from "./common/dropdown";
