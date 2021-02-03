@@ -4,7 +4,12 @@ function TableHeaders({ theme, defaultHeaders, rows }) {
   return (
     <>
       {defaultHeaders.map((defaultHeader) => (
-        <th key={defaultHeader}>{defaultHeader}</th>
+        <th
+          className={`th-default-${defaultHeader.toLowerCase()}`}
+          key={defaultHeader}
+        >
+          {defaultHeader}
+        </th>
       ))}
 
       {rows.map((header) => (

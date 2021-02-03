@@ -4,6 +4,14 @@ tr.sticky th {
   background-color: white;
 }
 
+th.th-default-date {
+  min-width: 90px;
+}
+
+th.th-default-game {
+  min-width: 130px;
+}
+
 div.table-container {
   max-height: 75vh !important;
   overflow: scroll !important;

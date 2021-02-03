@@ -8,7 +8,10 @@ function TableRows({ defaultRows, rows, game }) {
       ))}
 
       {rows.map((row) => (
-        <td key={`${Object.values(row)}`}>
+        <td
+          className={`player_table_${Object.values(row)}`}
+          key={`${Object.values(row)}`}
+        >
           {game.stats[`${Object.values(row)}`]}
         </td>
       ))}
