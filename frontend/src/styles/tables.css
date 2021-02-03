@@ -12,6 +12,10 @@ th.th-default-game {
   min-width: 130px;
 }
 
+td.default-row {
+  font-weight: 500;
+}
+
 div.table-container {
   max-height: 75vh !important;
   overflow: scroll !important;

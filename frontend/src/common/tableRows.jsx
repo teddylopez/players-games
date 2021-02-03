@@ -4,7 +4,9 @@ function TableRows({ defaultRows, rows, game }) {
   return (
     <>
       {defaultRows.map((defaultRow) => (
-        <td key={defaultRow}>{defaultRow}</td>
+        <td className="default-row" key={defaultRow}>
+          {defaultRow}
+        </td>
       ))}
 
       {rows.map((row) => (
