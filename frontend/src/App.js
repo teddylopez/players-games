@@ -10,7 +10,7 @@ import { gameEnumLabels } from "./utils";
 
 function App() {
   const [player, setPlayer] = useState([]);
-  const [statTableTheme, setStatTableTheme] = useState("proHitter");
+  const [statTableTheme, setStatTableTheme] = useState("proHitterStandard");
   const [currentPage, setCurrentPage] = useState(1);
   const [initialPage, setInitialPage] = useState(true);
   const [loading, setLoading] = useState(true);

@@ -2,23 +2,23 @@ import { formatDate, getMatchupDetails } from './utils';
 
 export const defaultTableHeaders = (theme) => {
   const themes = {
-    proHitter: ["Date", "Game"],
-    proPitcher: ["Date", "Game"]
+    proHitterStandard: ["Date", "Game"],
+    proPitcherStandard: ["Date", "Game"]
   }
   return themes[theme];
 }
 
 export const defaultTableRows = (theme, game) => {
   const themes = {
-    proHitter: [formatDate(game.startsAt), getMatchupDetails(game)],
-    proPitcher: [formatDate(game.startsAt), getMatchupDetails(game)]
+    proHitterStandard: [formatDate(game.startsAt), getMatchupDetails(game)],
+    proPitcherStandard: [formatDate(game.startsAt), getMatchupDetails(game)]
   }
   return themes[theme];
 }
 
 export const tableThemes = (theme) => {
   const themes = {
-    proHitter: [
+    proHitterStandard: [
       { "PA": "total_plate_appearances" },
       { "AB": "at_bats" },
       { "R": "runs" },
@@ -34,7 +34,7 @@ export const tableThemes = (theme) => {
       { "CS": "caught_stealing" },
     ],
 
-    proPitcher: [
+    proPitcherStandard: [
       {"Dec": "decision"},
       {"IP": "innings_pitched"},
       {"Pitches": "pitch_count"},
