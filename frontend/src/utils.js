@@ -10,11 +10,6 @@ export const getUniqueArrayValues = (array) => {
   return array.filter((x, i, a) => a.indexOf(x) === i);
 };
 
-export const getGameDate = (game) => {
-  const { startsAt } = game;
-  return `${startsAt}`;
-};
-
 export const getMatchupDetails = (game) => {
   const { homeTeamName, awayTeamName, gameType } = game;
 
@@ -33,7 +28,7 @@ export const positionText = (player) => {
 
 export const gameEnumLabels = (enumValue) => {
   const enumTypes = {
-    All: "All",
+    "All": "All",
     "0": "Intrasquad",
     "1": "Instructional",
     "2": "Exhibition",
@@ -45,6 +40,20 @@ export const gameEnumLabels = (enumValue) => {
     "8": "Championship Series",
     "9": "World Series",
     "10": "Championship",
+  };
+  return enumTypes[enumValue];
+};
+
+export const playLevelEnumLabels = (enumValue) => {
+  const enumTypes = {
+    "All": "All",
+    "0": "ML",
+    "1": "AAA",
+    "2": "AA",
+    "3": "A+",
+    "4": "A Short",
+    "5": "Rookie",
+    "6": "R",
   };
   return enumTypes[enumValue];
 };

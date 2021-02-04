@@ -6,7 +6,7 @@ import Loading from "./common/loading";
 import Nav from "./components/nav";
 import Sidebar from "./components/sidebar";
 import Table from "./common/table";
-import { gameEnumLabels } from "./utils";
+import { gameEnumLabels, playLevelEnumLabels} from "./utils";
 
 function App() {
   const [player, setPlayer] = useState([]);
@@ -20,6 +20,8 @@ function App() {
   const [gameType, setGameType] = useState("All");
   const [season, setSeason] = useState("Career");
   const [seasons, setSeasons] = useState(["Career"]);
+  const [playLevels, setPlayLevels] = useState(["All"]);
+  const [playLevel, setPlayLevel] = useState("All");
 
   const handleScroll = (e) => {
     const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
@@ -46,6 +48,11 @@ function App() {
     setGameType(e.currentTarget.value);
   };
 
+  const handlePlayLevelChange = (e) => {
+    resetDefaults();
+    setPlayLevel(e.currentTarget.value);
+  };
+
   const resetDefaults = () => {
     setCurrentPage(1);
     setInitialPage(true);
@@ -58,10 +65,11 @@ function App() {
   useEffect(() => {
     axios
       .get(
-        `/api/players/64002/games?page=${currentPage}&season=${season}&game_type=${gameType}`
+        `/api/players/64002/games?page=${currentPage}&season=${season}&game_type=${gameType}&play_level=${playLevel}`
       )
       .then(({ data }) => {
-        const { player, seasons, queriedGames, gameTypes } = data;
+        const { player, seasons, queriedGames, gameTypes, playLevels } = data;
+
         if (queriedGames.length === 0) {
           setReachedEnd(true);
           setLoading(false);
@@ -72,13 +80,14 @@ function App() {
         setSeasons(["Career", ...seasons]);
         setGames([...games, ...queriedGames]);
         setGameTypes(["All", ...gameTypes]);
+        setPlayLevels(["All", ...playLevels]);
         setLoading(false);
         setInitialPage(false);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [currentPage, season, gameType]);
+  }, [currentPage, season, gameType, playLevel]);
 
   return (
     <>
@@ -87,24 +96,27 @@ function App() {
         <div className="row row-offcanvas row-offcanvas-right">
           <Sidebar />
           <div className="col-xs-12 col-sm-10 col-sm-push-3">
-            <div className="page-segment row flex-container space-around">
-              <div>
-                <label htmlFor="season">Season:</label>
-                <Dropdown
-                  value={season}
-                  collection={seasons}
-                  onHandleChange={handleSeasonChange}
-                />
-              </div>
-              <div>
-                <label htmlFor="game-type">Game Type:</label>
-                <Dropdown
-                  value={gameType}
-                  collection={gameTypes}
-                  onHandleChange={handleGameTypeChange}
-                  setLabel={gameEnumLabels}
-                />
-              </div>
+            <div className="page-segment row flex-container">
+              <Dropdown
+                label={"Season"}
+                value={season}
+                collection={seasons}
+                onHandleChange={handleSeasonChange}
+              />
+              <Dropdown
+                label={"Game Type"}
+                value={gameType}
+                collection={gameTypes}
+                onHandleChange={handleGameTypeChange}
+                setLabel={gameEnumLabels}
+              />
+              <Dropdown
+                label={"Play Level"}
+                value={playLevel}
+                collection={playLevels}
+                onHandleChange={handlePlayLevelChange}
+                setLabel={playLevelEnumLabels}
+              />
             </div>
             <div className="small-page-segment loading-wrapper">
               {loading && <Loading />}

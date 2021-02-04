@@ -4,13 +4,9 @@ const pool = require("../db.js");
 
 playerRouter.get("/:id/games", async (req, res) => {
   const { id } = req.params;
-  let { page, season, game_type } = req.query;
-  let perPage = 50;
-  let startIndex = (page - 1) * perPage;
-  let endIndex = page * perPage;
+  let { page, season, game_type, play_level } = req.query;
 
   try {
-
     const allGames = await pool.query(
       "SELECT * FROM games JOIN stat_lines ON games.id = stat_lines.game_id JOIN players ON stat_lines.player_id = players.id WHERE players.id = $1 ORDER BY starts_at DESC",
       [id]
@@ -30,12 +26,19 @@ playerRouter.get("/:id/games", async (req, res) => {
       })
       .filter((x, i, a) => a.indexOf(x) === i);
 
-    const firstRow = allGames.rows[0]
+    const uniquePlayLevels = allGames.rows
+      .map((game) => {
+        return game.play_level;
+      })
+      .sort((a, b) => a - b)
+      .filter((x, i, a) => a.indexOf(x) === i);
+
+    const firstRow = allGames.rows[0];
     const playerInfo = {
-      "id": firstRow['id'],
-      "last_name": firstRow['last_name'],
-      "first_name": firstRow['first_name'],
-    }
+      id: firstRow["id"],
+      last_name: firstRow["last_name"],
+      first_name: firstRow["first_name"],
+    };
 
     let queriedGames = [];
     for (game of allGames.rows) {
@@ -43,6 +46,7 @@ playerRouter.get("/:id/games", async (req, res) => {
       gameData["id"] = game.game_id;
       gameData["startsAt"] = new Date(game.starts_at);
       gameData["gameType"] = game.game_type;
+      gameData["playLevel"] = game.play_level;
       gameData["statLineType"] = game.stat_line_type;
       gameData["stats"] = game.stats;
       gameData["homeTeamName"] = game.home_team_name;
@@ -68,6 +72,18 @@ playerRouter.get("/:id/games", async (req, res) => {
       }
     }
 
+    if (play_level) {
+      if (play_level !== "All") {
+        queriedGames = queriedGames.filter(
+          (game) => game.playLevel === Number(play_level)
+        );
+      }
+    }
+
+    let perPage = 50;
+    let startIndex = (page - 1) * perPage;
+    let endIndex = page * perPage;
+
     queriedGames = queriedGames.slice(startIndex, endIndex);
 
     res.json({
@@ -75,7 +91,9 @@ playerRouter.get("/:id/games", async (req, res) => {
       seasons: uniquePlayerSeasons,
       queriedGames: queriedGames,
       gameTypes: uniqueGameTypes,
+      playLevels: uniquePlayLevels,
     });
+
   } catch (err) {
     console.log(err.message);
   }

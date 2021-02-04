@@ -11,8 +11,6 @@ div.panel-body {
 }
 
 div.page-segment {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   margin: 10px 0;
   height: 50px;
@@ -30,6 +28,10 @@ div.small-page-segment {
 
 div.flex-container {
   display: flex;
+}
+
+div.dropdown-container {
+  margin-right: 30px;
 }
 
 @media only screen and (max-width: 800px) {
