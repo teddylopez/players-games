@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const pool = require("./db.js");
 const playerRouter = require("./routers/playerRouter.js");
 const path = require("path");
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.disable('etag');
 
 app.use("/api/players/", playerRouter);
 

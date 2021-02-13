@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
+import React from "react";
 
-function Dropdown({ value, label, collection, onHandleChange, setLabel }) {
+function Dropdown({ value, label, collection, onHandleChange }) {
   if (collection.length <= 2) return null;
 
   return (
@@ -9,7 +9,7 @@ function Dropdown({ value, label, collection, onHandleChange, setLabel }) {
       <select value={value} onChange={onHandleChange}>
         {collection.map((item) => (
           <option value={item} key={item}>
-            {setLabel ? setLabel(item) : item}
+            {item}
           </option>
         ))}
       </select>

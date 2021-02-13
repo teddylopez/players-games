@@ -5,9 +5,9 @@ import {
   tableThemes,
   defaultTableHeaders,
   defaultTableRows,
-} from "../tableThemeConstants";
+} from "../tableThemes";
 
-function Table({ games, theme }) {
+function Table({ items, theme }) {
   const [rows] = useState(tableThemes(theme));
 
   return (
@@ -22,7 +22,7 @@ function Table({ games, theme }) {
           </tr>
         </thead>
         <tbody>
-          {games.map((game) => (
+          {items.map((game) => (
             <tr key={game.id}>
               <TableRows
                 defaultRows={defaultTableRows(theme, game)}

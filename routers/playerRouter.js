@@ -1,99 +1,69 @@
 const express = require("express");
 const playerRouter = express.Router();
 const pool = require("../db.js");
+const {
+  uniq,
+  enumsToGameTypes,
+  filterSeasonsOfGames,
+  filterTypesOfGames,
+  filterGamePlayLevels,
+  paginate,
+  enumsToPlayLevels
+} = require("../frontend/src/utils.js");
 
 playerRouter.get("/:id/games", async (req, res) => {
   const { id } = req.params;
-  let { page, season, game_type, play_level } = req.query;
+  const { page, season, game_type, play_level } = req.query;
 
   try {
-    const allGames = await pool.query(
-      "SELECT * FROM games JOIN stat_lines ON games.id = stat_lines.game_id JOIN players ON stat_lines.player_id = players.id WHERE players.id = $1 ORDER BY starts_at DESC",
+    const playerGames = await pool.query(
+      "SELECT game_id, starts_at, game_type, play_level, stats, home_team_name, away_team_name FROM games JOIN stat_lines ON games.id = stat_lines.game_id JOIN players ON stat_lines.player_id = players.id WHERE players.id = $1 ORDER BY starts_at DESC",
       [id]
     );
 
-    const uniquePlayerSeasons = allGames.rows
-      .map((game) => {
-        const dateObj = new Date(game.starts_at);
-        var year = dateObj.getFullYear();
-        return `${year}`;
-      })
-      .filter((x, i, a) => a.indexOf(x) === i);
-
-    const uniqueGameTypes = allGames.rows
-      .map((game) => {
-        return game.game_type;
-      })
-      .filter((x, i, a) => a.indexOf(x) === i);
-
-    const uniquePlayLevels = allGames.rows
-      .map((game) => {
-        return game.play_level;
-      })
-      .sort((a, b) => a - b)
-      .filter((x, i, a) => a.indexOf(x) === i);
-
-    const firstRow = allGames.rows[0];
-    const playerInfo = {
-      id: firstRow["id"],
-      last_name: firstRow["last_name"],
-      first_name: firstRow["first_name"],
-    };
+    const games = playerGames.rows;
 
     let queriedGames = [];
-    for (game of allGames.rows) {
+    let uniquePlayerSeasons = [];
+    let uniqueGameTypes = [];
+    let uniquePlayLevels = [];
+
+    for (let game of games) {
       let gameData = {};
       gameData["id"] = game.game_id;
       gameData["startsAt"] = new Date(game.starts_at);
       gameData["gameType"] = game.game_type;
       gameData["playLevel"] = game.play_level;
-      gameData["statLineType"] = game.stat_line_type;
       gameData["stats"] = game.stats;
       gameData["homeTeamName"] = game.home_team_name;
       gameData["awayTeamName"] = game.away_team_name;
+
       queriedGames.push(gameData);
+      uniquePlayerSeasons.push(`${game.starts_at.toString().substring(10, 15)}`)
+      uniqueGameTypes.push(game.game_type)
+      uniquePlayLevels.push(game.play_level)
     }
 
-    if (season) {
-      if (season !== "Career") {
-        let startDate = new Date(`${season}-01-01`);
-        let endDate = new Date(`${Number(season) + 1}-01-01`);
-        queriedGames = queriedGames.filter(
-          (game) => game.startsAt >= startDate && game.startsAt < endDate
-        );
-      }
+    if (season !== "Career") {
+      queriedGames = filterSeasonsOfGames(queriedGames, season);
     }
 
-    if (game_type) {
-      if (game_type !== "All") {
-        queriedGames = queriedGames.filter(
-          (game) => game.gameType === Number(game_type)
-        );
-      }
+    if (game_type !== "All") {
+      queriedGames = filterTypesOfGames(queriedGames, game_type);
     }
 
-    if (play_level) {
-      if (play_level !== "All") {
-        queriedGames = queriedGames.filter(
-          (game) => game.playLevel === Number(play_level)
-        );
-      }
+    if (play_level !== "All") {
+      queriedGames = filterGamePlayLevels(queriedGames, play_level);
     }
 
-    let perPage = 50;
-    let startIndex = (page - 1) * perPage;
-    let endIndex = page * perPage;
-
-    queriedGames = queriedGames.slice(startIndex, endIndex);
+    queriedGames = paginate(queriedGames, page);
 
     res.json({
-      player: playerInfo,
-      seasons: uniquePlayerSeasons,
+      seasons: uniq(uniquePlayerSeasons),
+      gameTypes: uniq(enumsToGameTypes(uniqueGameTypes)),
+      playLevels: uniq(enumsToPlayLevels(uniquePlayLevels)),
       queriedGames: queriedGames,
-      gameTypes: uniqueGameTypes,
-      playLevels: uniquePlayLevels,
     });
-
   } catch (err) {
     console.log(err.message);
   }

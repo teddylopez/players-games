@@ -8,6 +8,7 @@ function Nav({ player }) {
           <div className="logo-container">
             <a className="navbar-brand" href="#">
               <img
+                alt="team-logo"
                 className="brand-logo"
                 src="https://www.mlbstatic.com/team-logos/team-cap-on-dark/112.svg"
               />
@@ -56,7 +57,7 @@ function Nav({ player }) {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 hidden">
               <li className="nav-item">
                 <a className="nav flex-column" href="#">
-                  {`${player.first_name} ${player.last_name}`}
+                  "Anthony Rizzo"
                 </a>
               </li>
               <li className="nav-item">
@@ -109,11 +110,7 @@ function Nav({ player }) {
       </nav>
       <div className="subheader">
         <div className="container">
-          {player.first_name ? (
-            <h5>{`${player.first_name} ${player.last_name}`}</h5>
-          ) : (
-            ""
-          )}
+          <h5>Anthony Rizzo</h5>
         </div>
       </div>
     </>

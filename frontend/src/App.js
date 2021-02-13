@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Dropdown from "./common/dropdown";
@@ -6,22 +6,21 @@ import Loading from "./common/loading";
 import Nav from "./components/nav";
 import Sidebar from "./components/sidebar";
 import Table from "./common/table";
-import { gameEnumLabels, playLevelEnumLabels} from "./utils";
 
 function App() {
-  const [player, setPlayer] = useState([]);
-  const [statTableTheme, setStatTableTheme] = useState("proHitterStandard");
+  const [statTableTheme] = useState("proHitterStandard");
+  const [playerId] = useState(64002);
   const [currentPage, setCurrentPage] = useState(1);
   const [initialPage, setInitialPage] = useState(true);
   const [loading, setLoading] = useState(true);
   const [reachedEnd, setReachedEnd] = useState(false);
   const [games, setGames] = useState([]);
-  const [gameTypes, setGameTypes] = useState(["All"]);
-  const [gameType, setGameType] = useState("All");
   const [season, setSeason] = useState("Career");
-  const [seasons, setSeasons] = useState(["Career"]);
-  const [playLevels, setPlayLevels] = useState(["All"]);
+  const [seasons, setSeasons] = useState([]);
+  const [gameType, setGameType] = useState("All");
+  const [gameTypes, setGameTypes] = useState([]);
   const [playLevel, setPlayLevel] = useState("All");
+  const [playLevels, setPlayLevels] = useState([]);
 
   const handleScroll = (e) => {
     const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
@@ -30,7 +29,6 @@ function App() {
       if (reachedEnd) return;
       if (initialPage) {
         setInitialPage(false);
-        return;
       } else if (!initialPage) {
         setCurrentPage(currentPage + 1);
       }
@@ -61,14 +59,14 @@ function App() {
     setGames([]);
   };
 
-  // API call when when filtering/scrolling events have been triggered
+  // API call when filtering/scrolling events have been triggered
   useEffect(() => {
     axios
       .get(
-        `/api/players/64002/games?page=${currentPage}&season=${season}&game_type=${gameType}&play_level=${playLevel}`
+        `/api/players/${playerId}/games?page=${currentPage}&season=${season}&game_type=${gameType}&play_level=${playLevel}`
       )
       .then(({ data }) => {
-        const { player, seasons, queriedGames, gameTypes, playLevels } = data;
+        const { seasons, queriedGames, gameTypes, playLevels } = data;
 
         if (queriedGames.length === 0) {
           setReachedEnd(true);
@@ -76,22 +74,21 @@ function App() {
           return;
         }
 
-        setPlayer(player);
         setSeasons(["Career", ...seasons]);
         setGames([...games, ...queriedGames]);
-        setGameTypes(["All", ...gameTypes]);
-        setPlayLevels(["All", ...playLevels]);
+        setGameTypes([...gameTypes]);
+        setPlayLevels([...playLevels]);
         setLoading(false);
         setInitialPage(false);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [currentPage, season, gameType, playLevel]);
+  }, [playerId, currentPage, season, gameType, playLevel]);
 
   return (
     <>
-      <Nav player={player} />
+      <Nav />
       <div className="container container-fluid body-wrapper">
         <div className="row row-offcanvas row-offcanvas-right">
           <Sidebar />
@@ -108,21 +105,19 @@ function App() {
                 value={gameType}
                 collection={gameTypes}
                 onHandleChange={handleGameTypeChange}
-                setLabel={gameEnumLabels}
               />
               <Dropdown
                 label={"Play Level"}
                 value={playLevel}
                 collection={playLevels}
                 onHandleChange={handlePlayLevelChange}
-                setLabel={playLevelEnumLabels}
               />
             </div>
             <div className="small-page-segment loading-wrapper">
               {loading && <Loading />}
             </div>
             <div className="row table-container" onScroll={handleScroll}>
-              <Table games={games} theme={statTableTheme} />
+              <Table items={games} theme={statTableTheme} />
             </div>
           </div>
         </div>

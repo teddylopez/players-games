@@ -1,6 +1,6 @@
 import React from "react";
 
-function TableHeaders({ theme, defaultHeaders, rows }) {
+function TableHeaders({ defaultHeaders, rows }) {
   return (
     <>
       {defaultHeaders.map((defaultHeader) => (

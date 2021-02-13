@@ -8,6 +8,7 @@ function Sidebar() {
     >
       <div className="sidebar-player-photo">
         <img
+          alt="player"
           className="player-photo"
           src="https://securea.mlb.com/mlb/images/players/head_shot/519203.jpg"
         ></img>
