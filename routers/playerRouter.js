@@ -1,7 +1,8 @@
-const express = require("express");
+// const express = require("express");
+import express from 'express'
 const playerRouter = express.Router();
-const pool = require("../db.js");
-const {
+import pool from "../db.js";
+import {
   uniq,
   enumsToGameTypes,
   filterSeasonsOfGames,
@@ -9,7 +10,7 @@ const {
   filterGamePlayLevels,
   paginate,
   enumsToPlayLevels
-} = require("../frontend/src/utils.js");
+} from "../frontend/src/utils.js";
 
 playerRouter.get("/:id/games", async (req, res) => {
   const { id } = req.params;
@@ -69,4 +70,4 @@ playerRouter.get("/:id/games", async (req, res) => {
   }
 });
 
-module.exports = playerRouter;
+export default playerRouter;

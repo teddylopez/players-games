@@ -1,4 +1,4 @@
-const { formatDate, getGameMatchup } = require("./utils.js");
+import { formatDate, getGameMatchup } from "./utils.js";
 
 export const defaultTableHeaders = (theme) => {
   const themes = {

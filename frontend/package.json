@@ -1,6 +1,7 @@
 {
   "name": "lopez-baseball",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {

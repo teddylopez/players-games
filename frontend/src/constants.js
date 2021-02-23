@@ -1,8 +1,8 @@
-const REGULAR_SEASON_GAME_TYPES = [4];
-const UNOFFICIAL_GAME_TYPES = [0, 1, 2, 3, 5, 10];
-const SPRING_TRAINING_GAME_TYPES = [3];
-const PLAYOFF_GAME_TYPES = [6, 7, 8, 9];
-const PLAY_LEVELS = {
+export const REGULAR_SEASON_GAME_TYPES = [4];
+export const UNOFFICIAL_GAME_TYPES = [0, 1, 2, 3, 5, 10];
+export const SPRING_TRAINING_GAME_TYPES = [3];
+export const PLAYOFF_GAME_TYPES = [6, 7, 8, 9];
+export const PLAY_LEVELS = {
   "0": "ML",
   "1": "AAA",
   "2": "AA",
@@ -11,7 +11,7 @@ const PLAY_LEVELS = {
   "5": "Rookie",
   "6": "R",
 };
-const ORGS = {
+export const ORGS = {
   "Arizona Diamondbacks": "ARI",
   "Atlanta Braves": "ATL",
   "Baltimore Orioles": "BAL",
@@ -45,13 +45,4 @@ const ORGS = {
   "Italy Italy": "Italy",
   "National League All-Stars": "NL All-Stars",
   "American League All-Stars": "AL All-Stars",
-};
-
-module.exports = {
-  REGULAR_SEASON_GAME_TYPES,
-  UNOFFICIAL_GAME_TYPES,
-  SPRING_TRAINING_GAME_TYPES,
-  PLAYOFF_GAME_TYPES,
-  PLAY_LEVELS,
-  ORGS,
 };
