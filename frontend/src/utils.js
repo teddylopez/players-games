@@ -90,21 +90,21 @@ export const isSortableColumn = (header) => {
 }
 
 export const tableHeaderLabel = (header, direction) => {
-  if (DEFAULT_SORTABLE_TABLE_HEADERS.includes(header)) {
+  if (isSortableColumn(header)) {
     return `${header} ${direction === 'asc' ? '▲' : '▼'}`
   } else {
     return header
   }
 }
 
-export const sortColumn = (sortFunction, columns) => {
-  return DEFAULT_SORTABLE_TABLE_HEADERS.includes(columns)
+export const sortColumn = (sortFunction, column) => {
+  return isSortableColumn(column)
     ? (e) => sortFunction()
     : null
 }
 
 export const sortableHeaderClass = (header, direction) => {
-  return DEFAULT_SORTABLE_TABLE_HEADERS.includes(header)
+  return isSortableColumn(header)
     ? `sortable-header ${direction}`
     : null
 }
