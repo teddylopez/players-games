@@ -4,6 +4,10 @@ tr.sticky th {
   background-color: white;
 }
 
+th.sortable-header {
+  cursor: pointer;
+}
+
 th.th-default-date {
   min-width: 90px;
 }
@@ -22,7 +26,6 @@ div.table-container {
 }
 
 table.player-stat-table {
-  cursor: pointer;
   line-height: 15px;
   background-color: white;
 }

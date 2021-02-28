@@ -21,6 +21,7 @@ function App() {
   const [gameTypes, setGameTypes] = useState([]);
   const [playLevel, setPlayLevel] = useState("All");
   const [playLevels, setPlayLevels] = useState([]);
+  const [sortDirection, setSortDirection] = useState("desc");
 
   const handleScroll = (e) => {
     const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
@@ -59,11 +60,16 @@ function App() {
     setGames([]);
   };
 
+  const handleSort = () => {
+    resetDefaults();
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+  };
+
   // API call when filtering/scrolling events have been triggered
   useEffect(() => {
     axios
       .get(
-        `/api/players/${playerId}/games?page=${currentPage}&season=${season}&game_type=${gameType}&play_level=${playLevel}`
+        `/api/players/${playerId}/games?page=${currentPage}&season=${season}&game_type=${gameType}&play_level=${playLevel}&sort=${sortDirection}`
       )
       .then(({ data }) => {
         const { seasons, queriedGames, gameTypes, playLevels } = data;
@@ -84,7 +90,7 @@ function App() {
       .catch((error) => {
         console.log(error);
       });
-  }, [playerId, currentPage, season, gameType, playLevel]);
+  }, [playerId, currentPage, season, gameType, playLevel, sortDirection]);
 
   return (
     <>
@@ -117,7 +123,7 @@ function App() {
               {loading && <Loading />}
             </div>
             <div className="row table-container" onScroll={handleScroll}>
-              <Table items={games} theme={statTableTheme} />
+              <Table items={games} theme={statTableTheme} onSort={handleSort} direction={sortDirection} />
             </div>
           </div>
         </div>

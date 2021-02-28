@@ -7,7 +7,7 @@ import {
   defaultTableRows,
 } from "../tableThemes";
 
-function Table({ items, theme }) {
+function Table({ items, theme, onSort, direction }) {
   const [rows] = useState(tableThemes(theme));
 
   return (
@@ -18,6 +18,8 @@ function Table({ items, theme }) {
             <TableHeaders
               defaultHeaders={defaultTableHeaders(theme)}
               rows={rows}
+              onSort={onSort}
+              direction={direction}
             />
           </tr>
         </thead>

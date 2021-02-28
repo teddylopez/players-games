@@ -11,6 +11,7 @@ export const PLAY_LEVELS = {
   "5": "Rookie",
   "6": "R",
 };
+export const DEFAULT_SORTABLE_TABLE_HEADERS = ["Date"]
 export const ORGS = {
   "Arizona Diamondbacks": "ARI",
   "Atlanta Braves": "ATL",

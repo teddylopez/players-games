@@ -4,7 +4,8 @@ import {
   SPRING_TRAINING_GAME_TYPES,
   PLAYOFF_GAME_TYPES,
   PLAY_LEVELS,
-  ORGS
+  ORGS,
+  DEFAULT_SORTABLE_TABLE_HEADERS
 } from "./constants.js";
 
 // Get unique values from arrays:
@@ -82,4 +83,28 @@ export const paginate = (items, page, resultsPerPage = 50) => {
   const startIndex = (page - 1) * resultsPerPage;
   const endIndex = page * resultsPerPage;
   return items.slice(startIndex, endIndex)
+}
+
+export const isSortableColumn = (header) => {
+  return DEFAULT_SORTABLE_TABLE_HEADERS.includes(header)
+}
+
+export const tableHeaderLabel = (header, direction) => {
+  if (DEFAULT_SORTABLE_TABLE_HEADERS.includes(header)) {
+    return `${header} ${direction === 'asc' ? '▲' : '▼'}`
+  } else {
+    return header
+  }
+}
+
+export const sortColumn = (sortFunction, columns) => {
+  return DEFAULT_SORTABLE_TABLE_HEADERS.includes(columns)
+    ? (e) => sortFunction()
+    : null
+}
+
+export const sortableHeaderClass = (header, direction) => {
+  return DEFAULT_SORTABLE_TABLE_HEADERS.includes(header)
+    ? `sortable-header ${direction}`
+    : null
 }

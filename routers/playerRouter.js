@@ -1,5 +1,5 @@
 // const express = require("express");
-import express from 'express'
+import express from "express";
 const playerRouter = express.Router();
 import pool from "../db.js";
 import {
@@ -9,16 +9,17 @@ import {
   filterTypesOfGames,
   filterGamePlayLevels,
   paginate,
-  enumsToPlayLevels
+  enumsToPlayLevels,
 } from "../frontend/src/utils.js";
 
 playerRouter.get("/:id/games", async (req, res) => {
   const { id } = req.params;
-  const { page, season, game_type, play_level } = req.query;
+  const { page, season, game_type, play_level, sort } = req.query;
 
   try {
     const playerGames = await pool.query(
-      "SELECT game_id, starts_at, game_type, play_level, stats, home_team_name, away_team_name FROM games JOIN stat_lines ON games.id = stat_lines.game_id JOIN players ON stat_lines.player_id = players.id WHERE players.id = $1 ORDER BY starts_at DESC",
+      "SELECT game_id, starts_at, game_type, play_level, stats, home_team_name, away_team_name FROM games JOIN stat_lines ON games.id = stat_lines.game_id JOIN players ON stat_lines.player_id = players.id WHERE players.id = $1" +
+        `ORDER BY starts_at ${sort}`,
       [id]
     );
 
@@ -40,9 +41,11 @@ playerRouter.get("/:id/games", async (req, res) => {
       gameData["awayTeamName"] = game.away_team_name;
 
       queriedGames.push(gameData);
-      uniquePlayerSeasons.push(`${game.starts_at.toString().substring(10, 15)}`)
-      uniqueGameTypes.push(game.game_type)
-      uniquePlayLevels.push(game.play_level)
+      uniquePlayerSeasons.push(
+        `${game.starts_at.toString().substring(10, 15)}`
+      );
+      uniqueGameTypes.push(game.game_type);
+      uniquePlayLevels.push(game.play_level);
     }
 
     if (season !== "Career") {
