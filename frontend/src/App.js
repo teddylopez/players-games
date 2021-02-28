@@ -37,19 +37,19 @@ function App() {
     }
   };
 
-  const handleSeasonChange = (e) => {
+  const handleFilterChange = (e) => {
+    const label = e.currentTarget.attributes.label.value
+    const val = e.currentTarget.value
+    
     resetDefaults();
-    setSeason(e.currentTarget.value);
+    if (label === 'Season') setSeason(val);
+    if (label === 'Game Type') setGameType(val);
+    if (label === 'Play Level') setPlayLevel(val);
   };
 
-  const handleGameTypeChange = (e) => {
+  const handleSort = () => {
     resetDefaults();
-    setGameType(e.currentTarget.value);
-  };
-
-  const handlePlayLevelChange = (e) => {
-    resetDefaults();
-    setPlayLevel(e.currentTarget.value);
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc")
   };
 
   const resetDefaults = () => {
@@ -58,11 +58,6 @@ function App() {
     setLoading(true);
     setReachedEnd(false);
     setGames([]);
-  };
-
-  const handleSort = () => {
-    resetDefaults();
-    setSortDirection(sortDirection === "asc" ? "desc" : "asc")
   };
 
   // API call when filtering/scrolling events have been triggered
@@ -104,19 +99,19 @@ function App() {
                 label={"Season"}
                 value={season}
                 collection={seasons}
-                onHandleChange={handleSeasonChange}
+                onHandleChange={handleFilterChange}
               />
               <Dropdown
                 label={"Game Type"}
                 value={gameType}
                 collection={gameTypes}
-                onHandleChange={handleGameTypeChange}
+                onHandleChange={handleFilterChange}
               />
               <Dropdown
                 label={"Play Level"}
                 value={playLevel}
                 collection={playLevels}
-                onHandleChange={handlePlayLevelChange}
+                onHandleChange={handleFilterChange}
               />
             </div>
             <div className="small-page-segment loading-wrapper">

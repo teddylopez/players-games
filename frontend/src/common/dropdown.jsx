@@ -6,7 +6,7 @@ function Dropdown({ value, label, collection, onHandleChange }) {
   return (
     <div className="dropdown-container">
       <label htmlFor={value}>{label}:</label>
-      <select value={value} onChange={onHandleChange}>
+      <select value={value} onChange={onHandleChange} label={label}>
         {collection.map((item) => (
           <option value={item} key={item}>
             {item}
