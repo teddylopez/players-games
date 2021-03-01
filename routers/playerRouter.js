@@ -17,9 +17,7 @@ playerRouter.get("/:id/games", async (req, res) => {
 
   try {
     const playerGames = await pool.query(
-      "SELECT game_id, starts_at, game_type, play_level, stats, home_team_name, away_team_name FROM games JOIN stat_lines ON games.id = stat_lines.game_id JOIN players ON stat_lines.player_id = players.id WHERE players.id = $1" +
-        `ORDER BY starts_at ${sort}`,
-      [id]
+      `SELECT game_id, starts_at, game_type, play_level, stats, home_team_name, away_team_name FROM games JOIN stat_lines ON games.id = stat_lines.game_id JOIN players ON stat_lines.player_id = players.id WHERE players.id = ${id} ORDER BY starts_at ${sort}`
     );
 
     const games = playerGames.rows;
