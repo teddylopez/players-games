@@ -110,7 +110,7 @@ function Nav({ player }) {
       </nav>
       <div className="subheader">
         <div className="container">
-          <h5>Anthony Rizzo</h5>
+          <h5>Anthony Rizzo, CHC</h5>
         </div>
       </div>
     </>

@@ -1,4 +1,3 @@
-// const express = require("express");
 import express from "express";
 const playerRouter = express.Router();
 import pool from "../db.js";
