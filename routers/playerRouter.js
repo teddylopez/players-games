@@ -23,9 +23,9 @@ playerRouter.get("/:id/games", async (req, res) => {
     const games = playerGames.rows;
 
     let queriedGames = [];
-    let uniquePlayerSeasons = [];
-    let uniqueGameTypes = [];
-    let uniquePlayLevels = [];
+    let uniquePlayerSeasons = new Set();
+    let uniqueGameTypes = new Set();
+    let uniquePlayLevels = new Set();
 
     for (let game of games) {
       let gameData = {};
@@ -38,11 +38,9 @@ playerRouter.get("/:id/games", async (req, res) => {
       gameData["awayTeamName"] = game.away_team_name;
 
       queriedGames.push(gameData);
-      uniquePlayerSeasons.push(
-        `${game.starts_at.toString().substring(10, 15)}`
-      );
-      uniqueGameTypes.push(game.game_type);
-      uniquePlayLevels.push(game.play_level);
+      uniquePlayerSeasons.add(`${game.starts_at.toString().substring(10, 15)}`);
+      uniqueGameTypes.add(game.game_type);
+      uniquePlayLevels.add(game.play_level);
     }
 
     if (season !== "Career") {
@@ -60,9 +58,9 @@ playerRouter.get("/:id/games", async (req, res) => {
     queriedGames = paginate(queriedGames, page);
 
     res.json({
-      seasons: uniq(uniquePlayerSeasons),
-      gameTypes: uniq(enumsToGameTypes(uniqueGameTypes)),
-      playLevels: uniq(enumsToPlayLevels(uniquePlayLevels)),
+      seasons: [...uniquePlayerSeasons],
+      gameTypes: [...enumsToGameTypes(uniqueGameTypes)],
+      playLevels: [...enumsToPlayLevels(uniquePlayLevels)],
       queriedGames: queriedGames,
     });
   } catch (err) {

@@ -41,23 +41,23 @@ export const springTrainingLabel = (gameType) => {
 };
 
 export const enumsToGameTypes = (arrayOfEnumGameTypes) => {
-  const translatedGameTypes = ["All"];
+  const translatedGameTypes = new Set(["All"]);
 
   for (let gameType of arrayOfEnumGameTypes) {
-    if (REGULAR_SEASON_GAME_TYPES.includes(gameType)) translatedGameTypes.push("Regular Season");
-    if (UNOFFICIAL_GAME_TYPES.includes(gameType)) translatedGameTypes.push("Unofficial");
-    if (PLAYOFF_GAME_TYPES.includes(gameType)) translatedGameTypes.push("Playoff");
+    if (REGULAR_SEASON_GAME_TYPES.includes(gameType)) translatedGameTypes.add("Regular Season");
+    if (UNOFFICIAL_GAME_TYPES.includes(gameType)) translatedGameTypes.add("Unofficial");
+    if (PLAYOFF_GAME_TYPES.includes(gameType)) translatedGameTypes.add("Playoff");
   }
-  return uniq(translatedGameTypes);
+  return [...translatedGameTypes];
 };
 
 export const enumsToPlayLevels = (arrayOfEnumPlayLevels) => {
-  const translatedPlayLevels = ["All"];
+  const translatedPlayLevels = new Set(["All"]);
 
   for (let playLevel of arrayOfEnumPlayLevels) {
-    translatedPlayLevels.push(PLAY_LEVELS[playLevel]);
+    translatedPlayLevels.add(PLAY_LEVELS[playLevel]);
   }
-  return uniq(translatedPlayLevels);
+  return [...translatedPlayLevels];
 };
 
 export const filterTypesOfGames = (games, typeOfGame) => {
